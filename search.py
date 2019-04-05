@@ -27,11 +27,12 @@ class scraper:
                 reply = self.session.get(url, params=self.keys, headers=self.header)
                 js    = json.loads(reply.text)
                 KeyInfo = js['returndata']
-                data_dict = KeyInfo['datanodes']
-                description_dict = KeyInfo['wdnodes'][0]['nodes']
+                data_dict_list = KeyInfo['datanodes']
+                description_dict_list = KeyInfo['wdnodes'][0]['nodes']
                 result_dict = {'year':str(year)}
-                for i in range(len(data_dict)):
-                    result_dict[ description_dict[i]['name'] ] = data_dict[i]['data']['strdata']
+                for i in range(len(data_dict_list)):
+                    result_dict[ description_dict_list[i]['name'] ] = data_dict_list[i]['data']['strdata']
+                    result_dict['unit'] = description_dict_list[i]['unit']
                 result.append(result_dict)
         except TypeError:
             return
