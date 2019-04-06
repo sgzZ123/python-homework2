@@ -2,6 +2,7 @@ import requests
 import time
 import json
 from config import *
+from database import *
 
 
 class scraper:
@@ -39,4 +40,10 @@ class scraper:
 
         return result
 
-
+if __name__ == '__main__':
+    s = scraper()
+    l = s.GetInfomation('popularity', [i for i in range(1999, 2019)])
+    o = Operator('1')
+    o.CreateNewTable('popularity',l[0].keys())
+    o.InsertInfo('popularity', l)
+    d = o.GetData('popularity')
