@@ -11,9 +11,9 @@ class Operator:
         command = 'CREATE TABLE %s (' % (TableName,)
         for names in ListName:
             if names == 'year':
-                command += '%s text primary key not null,' % (names,)
+                command += "'%s' text primary key not null," % (names,)
             else:
-                command += '%s text not null,' % (names,)
+                command += "'%s' text not null," % (names,)
         command = command.strip(',')
         command += ');'
         c.execute(command)
@@ -30,7 +30,8 @@ class Operator:
         for contents in structure:
             items.append(contents[1])
         for datas in DataList:
-            item_string = str(items).strip('[').strip(']').replace("'", '')
+            item_string = "'" + str(items).strip('[').strip(']').replace("'", '').replace(',',"','") + "'"
+            item_string = item_string.replace(' ', '')
             data_string = ''
             for item in items:
                 data_string += "'" + datas[item] + "'" + ','
@@ -39,6 +40,7 @@ class Operator:
                            VALUES (%s);' % (TableName, item_string, data_string))
         conn.commit()
         conn.close()
+        print('Insert Finished')
 
     def GetData(self, TableName):
         conn = sqlite3.connect(self.name)
