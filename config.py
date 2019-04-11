@@ -3,6 +3,7 @@ popularity = '[{"wdcode":"zb","valuecode":"A0301"}]'
 agestructure = '[{"wdcode":"zb","valuecode":"A0303"}]'
 
 
+# 返回相应的参数值
 def SearchContent(content):
     if type(content) == str:
         if content == 'popularity':
