@@ -32,7 +32,19 @@ class scraper:
             for year in years:
                 self.keys['dfwds'] = SearchContent(year)
                 reply = session.post(url, params=self.keys, headers=self.header)
-                js    = json.loads(reply.text)
+                while True:
+                    try:
+                        js    = json.loads(reply.text)
+                        break
+                    except:
+                        print('network error')
+                        print(reply.text)
+                        time.sleep(0.5)
+                        session = requests.session()
+                        self.keys['dfwds'] = SearchContent(content)
+                        reply = session.post(url, params=self.keys, headers=self.header)
+                        self.keys['dfwds'] = SearchContent(year)
+                        reply = session.post(url, params=self.keys, headers=self.header)
                 KeyInfo = js['returndata']
                 data_dict_list = KeyInfo['datanodes']
                 description_dict_list = KeyInfo['wdnodes'][0]['nodes']
