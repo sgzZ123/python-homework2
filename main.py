@@ -6,30 +6,28 @@ import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
     # 构建类
-    #s = scraper()
+    s = scraper()
     o = Operator('1')
 
     # 获得1999-2017年的年龄结构数据，并存入数据库的agestructure表
-    #l = s.GetInfomation('agestructure', [i for i in range(1999, 2018)])
-    #if l == -1:
-     #   print('failed to connect')
-      #  sys.exit()
-    #o.CreateNewTable('agestructure',l[0].keys())
-    #o.InsertInfo('agestructure', l)
+    l = s.GetInfomation('agestructure', [i for i in range(1999, 2018)])
+    if l == -1:
+        print('failed to connect')
+        sys.exit()
+    o.CreateNewTable('agestructure',l[0].keys())
+    o.InsertInfo('agestructure', l)
     # 从数据库中读取agestructure表
     d1 = o.GetData('agestructure')
-    print(d1)
 
     # 获得1999-2018年的人口数据，并存入数据库的popularity表
-    #l = s.GetInfomation('popularity', [i for i in range(1999, 2019)])
-    #if l == -1:
-     #   print('failed to connect')
-      #  sys.exit()
-    #o.CreateNewTable('popularity', l[0].keys())
-    #o.InsertInfo('popularity', l)
+    l = s.GetInfomation('popularity', [i for i in range(1999, 2019)])
+    if l == -1:
+        print('failed to connect')
+        sys.exit()
+    o.CreateNewTable('popularity', l[0].keys())
+    o.InsertInfo('popularity', l)
     # 从数据库中读取popularity表
     d2 = o.GetData('popularity')
-    print(d2)
 
     # 构建人口图的横轴（年份）和纵轴（总人口，男性人口占比，女性人口占比）
     axes_Year2 = [int(data['year']) for data in d2]

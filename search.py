@@ -11,10 +11,11 @@ class scraper:
         self.session = requests.session()
         self.header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
         self.keys = {'m': 'QueryData', 'dbcode': 'hgnd', 'rowcode': 'zb', 'colcode': 'sj', 'wds': '[]', 'dfwds': '[]',
-                     'k1': str(int(round(time.time() * 1000)))}
+                     'k1': str(int(round(time.time() * 1000)))} 
 
     # 从网页获取信息
     def GetInfomation(self, content, years):
+        session = requests.session()
         # 异常判断
         if not years or not content or type(content) != str:
             raise TypeError
@@ -22,7 +23,7 @@ class scraper:
 
         # 调整参数，发起请求，查询这一类数据
         self.keys['dfwds'] = SearchContent(content)
-        reply = self.session.get(url, params=self.keys, headers=self.header)
+        reply = session.post(url, params=self.keys, headers=self.header)
         if reply.status_code != 200:
             return -1
 
@@ -30,7 +31,7 @@ class scraper:
         try:
             for year in years:
                 self.keys['dfwds'] = SearchContent(year)
-                reply = self.session.get(url, params=self.keys, headers=self.header)
+                reply = session.post(url, params=self.keys, headers=self.header)
                 js    = json.loads(reply.text)
                 KeyInfo = js['returndata']
                 data_dict_list = KeyInfo['datanodes']
